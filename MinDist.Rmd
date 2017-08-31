@@ -1,10 +1,10 @@
 
-Fonction de calcul de la plus proche distance entre deux coordonnées géographiques.
-Assise sur le package geosphere, la fonction MinDist est évaluée à partir de l'une des trois distances prédéfinies dans le package (distHaversine, distVincentyEllipsoid, distVincentySphere). Elle mesure la plus proche distance entre deux coordonnées géographiques et identifie le point correspondant à cette plus courte distance.
+Fonction de calcul de la plus proche distance entre deux coordonnÃ©es gÃ©ographiques.
+Construite sur le package geosphere, la fonction MinDist est Ã©valuÃ©e Ã  partir de l'une des trois distances prÃ©dÃ©finies dans le package (distHaversine, distVincentyEllipsoid, distVincentySphere). Elle mesure la plus proche distance entre deux coordonnÃ©es gÃ©ographiques et identifie le point correspondant Ã  cette plus courte distance.
 
-MinDist retourne un dataset initial augmenté avec les coordonnées, la distance et l'ID de l'unité la plus proche dans le dataset de comparaison.
+MinDist retourne un dataset initial augmentÃ© avec les coordonnÃ©es, la distance et l'ID de l'unitÃ© la plus proche dans le dataset de comparaison.
 
-A noter que si la distance précalculée VincentyEllipsoid est plus précise, son coût est polynomial, veillez donc à avoir la ressource nécessaire pour l' utiliser.
+A noter que si la distance prÃ©calculÃ©e VincentyEllipsoid est plus prÃ©cise, son coÃ»t est polynomial, veillez donc Ã  avoir la ressource nÃ©cessaire pour l' utiliser.
 Pour plus d'informations, voir : https://github.com/cran/geosphere
 
 ```{r}
