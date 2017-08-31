@@ -4,7 +4,7 @@ Construite sur le package geosphere, la fonction MinDist est évaluée à partir
 
 MinDist retourne un dataset initial augmenté avec les coordonnées, la distance et l'ID de l'unité la plus proche dans le dataset de comparaison.
 
-A noter que si la distance précalculée VincentyEllipsoid est plus précise, son coût est polynomial, veillez donc à avoir la ressource nécessaire pour l' utiliser.
+A noter que si la distance précalculée VincentyEllipsoid est plus précise, son coût est polynomial.
 Pour plus d'informations, voir : https://github.com/cran/geosphere
 
 ```{r}
