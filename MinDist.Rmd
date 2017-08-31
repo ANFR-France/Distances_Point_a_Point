@@ -1,0 +1,54 @@
+
+Fonction de calcul de la plus proche distance entre deux coordonnées géographiques.
+Assise sur le package geosphere, la fonction MinDist est évaluée à partir de l'une des trois distances prédéfinies dans le package (distHaversine, distVincentyEllipsoid, distVincentySphere). Elle mesure la plus proche distance entre deux coordonnées géographiques et identifie le point correspondant à cette plus courte distance.
+
+MinDist retourne un dataset initial augmenté avec les coordonnées, la distance et l'ID de l'unité la plus proche dans le dataset de comparaison.
+
+A noter que si la distance précalculée VincentyEllipsoid est plus précise, son coût est polynomial, veillez donc à avoir la ressource nécessaire pour l' utiliser.
+Pour plus d'informations, voir : https://github.com/cran/geosphere
+
+```{r}
+
+MinDist <- function(x, y, x.lon, x.lat, y.lon, y.lat, yy.id, y.id, fun){
+
+###stocker les noms de colonnes
+  x.lon <- deparse(substitute(x.lon))
+  x.lat <- deparse(substitute(x.lat))
+  y.lon <- deparse(substitute(y.lon))
+  y.lat <- deparse(substitute(y.lat))
+  yy.id <- deparse(substitute(yy.id))
+  y.id <- deparse(substitute(y.id))
+
+###calculer la matrice de distance pour tous les points de x et y
+  require(geosphere)
+  mat <- distm(x[,c(x.lon, x.lat)], y[,c(y.lon, y.lat)], fun=fun)
+  
+###affecter les valeurs de y les plus proches de x  
+  x[[yy.id]] <- y[[y.id]][apply(mat, 1, which.min)]
+###recuperer les coordonnees des valeurs de y
+  x[[y.lon]] <- y[[y.lon]][apply(mat, 1, which.min)]
+  x[[y.lat]] <- y[[y.lat]][apply(mat, 1, which.min)]
+###recuperer la distance la plus proche entre les deux valeurs de x et y (en metres)  
+  x$dist_min <- apply(mat, 1, min)
+  
+  return(x)
+}
+```
+
+
+Simulation sur deux data frames
+```{r}
+
+simul_origin <- as.data.frame(cbind(lon_origin = sample(seq(1, 4, 0.01)), lat_origin = sample(seq(45, 46, 0.01)), ID_origin = seq(1, 1001)))
+
+simul_destination <- as.data.frame(cbind(lon_dest = sample(seq(-4, 7, 0.001)), lat_dest = sample(seq(43, 49, 0.001)), ID_dest = seq(1, 11001)))
+
+df_Haversine <- MinDist(simul_origin, simul_destination, lon_origin, lat_origin, lon_dest, lat_dest,  ID_dest_copy, ID_dest, distHaversine)
+
+df_VincentyEllipsoid <- MinDist(simul_origin, simul_destination, lon_origin, lat_origin, lon_dest, lat_dest,  ID_dest_copy, ID_dest, distVincentyEllipsoid)
+
+df_VincentySphere <- MinDist(simul_origin, simul_destination, lon_origin, lat_origin, lon_dest, lat_dest,  ID_dest_copy, ID_dest, distVincentySphere)
+
+
+```
+
